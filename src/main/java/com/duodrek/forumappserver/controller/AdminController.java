@@ -20,10 +20,10 @@ public class AdminController {
     private PostService postService;
 
 
-    @PostMapping("/api/admin/updateUser")
+    @PutMapping("/api/admin/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody User user){
         User existUser = userService.findByUsername(user.getUsername());
-        if(existUser != null && !existUser.getId().equals(user.getId())){
+        if(existUser != null && !existUser.getUserId().equals(user.getUserId())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(userService.updateUser(user), HttpStatus.CREATED);
@@ -55,7 +55,7 @@ public class AdminController {
         return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
     }
 
-    @PostMapping("/api/admin/updatePost")
+    @PutMapping("/api/admin/updatePost")
     public ResponseEntity<?> updatePost(@RequestBody Post post){
         return new ResponseEntity<>(postService.updatePost(post), HttpStatus.CREATED);
     }
@@ -66,10 +66,12 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/api/admin/posts")
-    public ResponseEntity<?> getAllPosts(){
+    @GetMapping("/api/admin/posts-all")
+    public ResponseEntity<?> findAllPosts(){
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
     }
+
+
 
     @GetMapping("/api/admin/posts-number")
     public ResponseEntity<?> numberOfPosts(){
