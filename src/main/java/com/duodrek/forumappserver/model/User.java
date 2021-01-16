@@ -7,8 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
+
 
 @Data
 @AllArgsConstructor
@@ -35,6 +34,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Transient
+    private String token;
 
 
 }

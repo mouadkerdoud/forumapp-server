@@ -1,5 +1,6 @@
 package com.duodrek.forumappserver.controller;
 
+import com.duodrek.forumappserver.jwt.JwtTokenProvider;
 import com.duodrek.forumappserver.model.Role;
 import com.duodrek.forumappserver.model.User;
 import com.duodrek.forumappserver.service.PostService;
@@ -7,6 +8,7 @@ import com.duodrek.forumappserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,9 @@ import java.security.Principal;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     @Autowired
     private UserService userService;
@@ -38,8 +43,12 @@ public class UserController {
         if(principal == null){
             return ResponseEntity.ok(principal);
         }
-        return new ResponseEntity<>(userService.findByUsername(principal.getName()), HttpStatus.OK);
-    }
+        UsernamePasswordAuthenticationToken authenticationToken =
+                (UsernamePasswordAuthenticationToken) principal;
+        User user = userService.findByUsername(authenticationToken.getName());
+        user.setToken(tokenProvider.generateToken(authenticationToken));
+
+        return new ResponseEntity<>(user, HttpStatus.OK);    }
 
     @GetMapping("/api/user/posts")
     public ResponseEntity<?> getAllPosts(){

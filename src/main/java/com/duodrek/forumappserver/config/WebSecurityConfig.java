@@ -1,5 +1,7 @@
 package com.duodrek.forumappserver.config;
 
+import com.duodrek.forumappserver.jwt.JWTAuthorizationFilter;
+import com.duodrek.forumappserver.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +23,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,6 +51,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic().and()
                 .csrf().disable();
+
+        //jwt filter
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtTokenProvider));
     }
 
     @Override
