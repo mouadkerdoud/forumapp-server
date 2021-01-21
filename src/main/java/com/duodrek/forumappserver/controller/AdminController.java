@@ -43,6 +43,13 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/api/admin/findUserById/{userId}")
+    public ResponseEntity<?> findByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(userService.findByUserId(userId), HttpStatus.OK);
+    }
+
+
+
     @GetMapping("/api/admin/users")
     public ResponseEntity<?> getAllUsers(){
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
