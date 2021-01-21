@@ -20,6 +20,14 @@ public class AdminController {
     private PostService postService;
 
 
+    @PostMapping("/api/admin/add-user")
+    public ResponseEntity<?> addNewUser(@RequestBody User user){
+        if(userService.findByUsername(user.getUsername()) != null){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
+    }
+
     @PutMapping("/api/admin/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody User user){
         User existUser = userService.findByUsername(user.getUsername());
