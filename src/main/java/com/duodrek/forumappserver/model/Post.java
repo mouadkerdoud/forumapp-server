@@ -1,7 +1,6 @@
 package com.duodrek.forumappserver.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,7 @@ public class Post {
     private Long postId;
 
     @Size(max = 255)
-    private String postTile;
+    private String postTitle;
 
     @Size(max = 500)
     private String postShortDescription;

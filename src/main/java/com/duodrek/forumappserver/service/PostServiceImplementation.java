@@ -30,7 +30,7 @@ public class PostServiceImplementation implements PostService {
     @Override
     public Post updatePost(Post post){
         Post existingPost = postRepository.findById(post.getPostId()).orElse(null);
-        existingPost.setPostTile(post.getPostTile());
+        existingPost.setPostTitle(post.getPostTitle());
         existingPost.setPostLongDescription(post.getPostLongDescription());
         existingPost.setPostShortDescription(post.getPostShortDescription());
         return postRepository.save(existingPost);
