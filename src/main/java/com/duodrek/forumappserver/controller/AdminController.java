@@ -81,6 +81,11 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/api/admin/findPostById/{postId}")
+    public ResponseEntity<?> findPostById(@PathVariable Long postId){
+        return new ResponseEntity<>(postService.findPostById(postId), HttpStatus.OK);
+    }
+
     @GetMapping("/api/admin/posts-all")
     public ResponseEntity<?> findAllPosts(){
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);

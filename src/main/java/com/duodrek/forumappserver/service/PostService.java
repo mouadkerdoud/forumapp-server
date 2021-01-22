@@ -13,6 +13,8 @@ public interface PostService {
 
     void deletePost(Long postId);
 
+    Post findPostById(Long postId);
+
     List<Post> getAllPosts();
 
     Long numberOfPosts();
