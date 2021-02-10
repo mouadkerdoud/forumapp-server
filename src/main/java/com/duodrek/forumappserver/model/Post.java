@@ -10,6 +10,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +34,6 @@ public class Post {
 
     private String username;
 
-    private LocalDateTime publishDate;
+    private String publishDate;
 
 }

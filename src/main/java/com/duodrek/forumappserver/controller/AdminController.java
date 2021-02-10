@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 public class AdminController {
@@ -69,7 +70,10 @@ public class AdminController {
 
     @PostMapping("/api/admin/createPost")
     public ResponseEntity<?> createPost(@RequestBody Post post){
-        post.setPublishDate(LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = now.format(formatter);
+        post.setPublishDate(formatDateTime);
         return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
     }
 
