@@ -35,5 +35,4 @@ public class Post {
     private String username;
 
     private String publishDate;
-
 }
