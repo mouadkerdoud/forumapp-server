@@ -22,13 +22,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-    @Size(max = 255)
+    @Column(length = 500)
     private String postTitle;
 
-    @Size(max = 500)
+    @Column(length = 800)
     private String postShortDescription;
 
-    @Size(max = 1000)
+    @Column(length = 3000)
     private String postLongDescription;
 
 
