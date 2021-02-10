@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 public class AdminController {
 
@@ -67,6 +69,7 @@ public class AdminController {
 
     @PostMapping("/api/admin/createPost")
     public ResponseEntity<?> createPost(@RequestBody Post post){
+        post.setPublishDate(LocalDateTime.now());
         return new ResponseEntity<>(postService.savePost(post), HttpStatus.CREATED);
     }
 
