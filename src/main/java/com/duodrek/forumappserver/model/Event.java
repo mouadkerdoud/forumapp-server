@@ -5,10 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,11 +18,14 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId;
 
-    String eventName;
+    private String eventName;
 
-    String eventDescription;
+    private String eventDescription;
 
-    String startDate;
+    private String startDate;
 
-    String finishDate;
+    private String finishDate;
+
+    @ManyToMany(mappedBy = "attendedEvents")
+    private Set<User> attendees;
 }

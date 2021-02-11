@@ -1,17 +1,15 @@
 package com.duodrek.forumappserver.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @Data
@@ -25,16 +23,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Size(max = 255)
     private String username;
 
-    @Size(max = 255)
     private String password;
 
-    @Size(max = 255)
     private String firstName;
 
-    @Size(max = 255)
     private String lastName;
 
     @OneToMany(
@@ -44,6 +38,16 @@ public class User {
     )
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
+
+
+    @ManyToMany
+    @JoinTable(
+            name="attend_event",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="event_id")
+    )
+    private Set<Event> attendedEvents;
+
 
     @Enumerated(EnumType.STRING)
     private Role role;
