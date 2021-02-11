@@ -2,11 +2,8 @@ package com.duodrek.forumappserver.service;
 
 
 import com.duodrek.forumappserver.model.Post;
-import com.duodrek.forumappserver.model.User;
 import com.duodrek.forumappserver.repository.PostRepository;
-import com.duodrek.forumappserver.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,8 +16,6 @@ public class PostServiceImplementation implements PostService {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    UserRepository userRepository;
 
     @Override
     public Post savePost(Post post){
