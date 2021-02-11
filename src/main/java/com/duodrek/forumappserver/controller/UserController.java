@@ -3,6 +3,7 @@ package com.duodrek.forumappserver.controller;
 import com.duodrek.forumappserver.jwt.JwtTokenProvider;
 import com.duodrek.forumappserver.model.Role;
 import com.duodrek.forumappserver.model.User;
+import com.duodrek.forumappserver.service.EventService;
 import com.duodrek.forumappserver.service.PostService;
 import com.duodrek.forumappserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,13 @@ public class UserController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private EventService eventService;
+
+
+
+    //User methods
+
     @PostMapping("/api/user/registration")
     public ResponseEntity<?> register(@RequestBody User user){
         if(userService.findByUsername(user.getUsername()) != null){
@@ -33,7 +41,6 @@ public class UserController {
         user.setRole(Role.USER);
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
-
 
     @GetMapping("/api/user/login")
     public ResponseEntity<?> getUser(Principal principal){
@@ -47,6 +54,9 @@ public class UserController {
 
         return new ResponseEntity<>(user, HttpStatus.OK);    }
 
+
+    //Post methods
+
     @GetMapping("/api/user/posts")
     public ResponseEntity<?> getAllPosts(){
         return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.OK);
@@ -56,6 +66,19 @@ public class UserController {
     @GetMapping("/api/user/findPostById/{postId}")
     public ResponseEntity<?> findPostById(@PathVariable Long postId){
         return new ResponseEntity<>(postService.findPostById(postId), HttpStatus.OK);
+    }
+
+
+    //Event methods
+    @GetMapping("/api/user/events")
+    public ResponseEntity<?> getAllEvents(){
+        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    }
+
+
+    @GetMapping("/api/user/findEventById/{eventId}")
+    public ResponseEntity<?> findEventById(@PathVariable Long eventId){
+        return new ResponseEntity<>(eventService.findEventById(eventId), HttpStatus.OK);
     }
 
 }
