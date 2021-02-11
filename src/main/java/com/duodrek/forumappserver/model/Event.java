@@ -26,6 +26,8 @@ public class Event {
 
     private String finishDate;
 
+    private String publishDate;
+
     @ManyToMany(mappedBy = "attendedEvents")
     private Set<User> attendees;
 }

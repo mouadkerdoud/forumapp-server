@@ -1,8 +1,10 @@
 package com.duodrek.forumappserver.controller;
 
+import com.duodrek.forumappserver.model.Event;
 import com.duodrek.forumappserver.model.Post;
 import com.duodrek.forumappserver.model.StringResponse;
 import com.duodrek.forumappserver.model.User;
+import com.duodrek.forumappserver.service.EventService;
 import com.duodrek.forumappserver.service.PostService;
 import com.duodrek.forumappserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,12 @@ public class AdminController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private EventService eventService;
+
+
+
+    //User methods
 
     @PostMapping("/api/admin/add-user")
     public ResponseEntity<?> addNewUser(@RequestBody User user){
@@ -68,6 +76,8 @@ public class AdminController {
     }
 
 
+    //Post methods
+
     @PostMapping("/api/admin/createPost")
     public ResponseEntity<?> createPost(@RequestBody Post post){
         LocalDateTime now = LocalDateTime.now();
@@ -107,5 +117,48 @@ public class AdminController {
         response.setResponse(number.toString());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
+    //Event methods
+
+    @PostMapping("/api/admin/createEvent")
+    public ResponseEntity<?> createEvent(@RequestBody Event event){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = now.format(formatter);
+        event.setPublishDate(formatDateTime);
+        return new ResponseEntity<>(eventService.saveEvent(event), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/api/admin/updateEvent")
+    public ResponseEntity<?> updatePost(@RequestBody Event event){
+        return new ResponseEntity<>(eventService.updateEvent(event), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/admin/deleteEvent/{eventId}")
+    public ResponseEntity<?> deleteEvent(@PathVariable Long eventId){
+        eventService.deleteEvent(eventId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/admin/findEventById/{eventId}")
+    public ResponseEntity<?> findEventById(@PathVariable Long eventId){
+        return new ResponseEntity<>(eventService.findEventById(eventId), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/admin/events-all")
+    public ResponseEntity<?> findAllEvents(){
+        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/admin/events-number")
+    public ResponseEntity<?> numberOfEvents() {
+        Long number = eventService.numberOfEvents();
+        StringResponse response = new StringResponse();
+        response.setResponse(number.toString());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 }
