@@ -32,8 +32,6 @@ public class Post {
     @Column(length = 3000)
     private String postLongDescription;
 
-    private String username;
-
     private String publishDate;
 
     @ManyToOne
