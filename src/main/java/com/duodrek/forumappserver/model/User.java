@@ -1,12 +1,12 @@
 package com.duodrek.forumappserver.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -37,12 +37,12 @@ public class User {
     @Size(max = 255)
     private String lastName;
 
-    @JsonBackReference
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

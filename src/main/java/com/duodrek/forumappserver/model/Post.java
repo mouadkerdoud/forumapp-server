@@ -36,7 +36,6 @@ public class Post {
 
     private String publishDate;
 
-    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
