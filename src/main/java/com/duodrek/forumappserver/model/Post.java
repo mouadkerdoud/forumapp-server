@@ -1,16 +1,17 @@
 package com.duodrek.forumappserver.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import net.minidev.json.annotate.JsonIgnore;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 
 @Data
 @NoArgsConstructor
@@ -31,8 +32,12 @@ public class Post {
     @Column(length = 3000)
     private String postLongDescription;
 
-
     private String username;
 
     private String publishDate;
+
+    @JsonManagedReference
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }
