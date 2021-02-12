@@ -1,6 +1,7 @@
 package com.duodrek.forumappserver.service;
 
 import com.duodrek.forumappserver.model.Event;
+import com.duodrek.forumappserver.model.User;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface EventService {
     List<Event> getAllEvents();
 
     Long numberOfEvents();
+
+
 }

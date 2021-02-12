@@ -28,6 +28,4 @@ public class Event {
 
     private String publishDate;
 
-    @ManyToMany(mappedBy = "attendedEvents")
-    private Set<User> attendees;
 }

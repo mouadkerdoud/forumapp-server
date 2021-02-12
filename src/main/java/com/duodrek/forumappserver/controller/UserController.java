@@ -1,8 +1,11 @@
 package com.duodrek.forumappserver.controller;
 
 import com.duodrek.forumappserver.jwt.JwtTokenProvider;
+import com.duodrek.forumappserver.model.Attending;
+import com.duodrek.forumappserver.model.Event;
 import com.duodrek.forumappserver.model.Role;
 import com.duodrek.forumappserver.model.User;
+import com.duodrek.forumappserver.service.AttendingService;
 import com.duodrek.forumappserver.service.EventService;
 import com.duodrek.forumappserver.service.PostService;
 import com.duodrek.forumappserver.service.UserService;
@@ -28,6 +31,9 @@ public class UserController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private AttendingService attendingService;
 
 
 
@@ -79,6 +85,12 @@ public class UserController {
     @GetMapping("/api/user/findEventById/{eventId}")
     public ResponseEntity<?> findEventById(@PathVariable Long eventId){
         return new ResponseEntity<>(eventService.findEventById(eventId), HttpStatus.OK);
+    }
+
+    @PostMapping("/api/user/attendEvent")
+    public ResponseEntity<?> attendEvent(@RequestBody Attending attending){
+        attendingService.saveAttending(attending);
+        return new ResponseEntity<>(attending, HttpStatus.CREATED);
     }
 
 }

@@ -39,16 +39,6 @@ public class User {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
-
-    @ManyToMany
-    @JoinTable(
-            name="attend_event",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="event_id")
-    )
-    private Set<Event> attendedEvents;
-
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
