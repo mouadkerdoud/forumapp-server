@@ -98,4 +98,10 @@ public class UserController {
         return new ResponseEntity<>(attendingService.findAllAttendings(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/user/deleteAttending/{attendingId}")
+    public ResponseEntity<?> deleteAttending(@PathVariable Long attendingId){
+        attendingService.deleteAttending(attendingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

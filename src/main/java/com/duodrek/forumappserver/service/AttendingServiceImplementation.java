@@ -1,6 +1,7 @@
 package com.duodrek.forumappserver.service;
 
 import com.duodrek.forumappserver.model.Attending;
+import com.duodrek.forumappserver.model.User;
 import com.duodrek.forumappserver.repository.AttendingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ public class AttendingServiceImplementation implements AttendingService {
     @Override
     public Attending saveAttending(Attending attending){
         return attendingRepository.save(attending);
+    }
+
+    @Override
+    public void deleteAttending(Long attendingId){
+        attendingRepository.deleteById(attendingId);
     }
 
     @Override
