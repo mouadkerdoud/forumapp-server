@@ -93,4 +93,9 @@ public class UserController {
         return new ResponseEntity<>(attending, HttpStatus.CREATED);
     }
 
+    @GetMapping("/api/user/attendings")
+    public ResponseEntity<?> getAllAttendings(){
+        return new ResponseEntity<>(attendingService.findAllAttendings(), HttpStatus.OK);
+    }
+
 }
