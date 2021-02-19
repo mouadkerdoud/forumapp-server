@@ -72,12 +72,9 @@ public class UserController {
 
 
     @PostMapping("/api/user/uploadCv")
-    public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile[] files) {
-        for (MultipartFile file: files) {
-            docStorageService.saveFile(file);
+    public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
 
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>( docStorageService.saveFile(file, userId), HttpStatus.CREATED );
     }
 
     @GetMapping("/api/user/downloadFile/{fileId}")

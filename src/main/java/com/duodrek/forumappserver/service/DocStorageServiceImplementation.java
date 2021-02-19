@@ -17,10 +17,10 @@ public class DocStorageServiceImplementation implements DocStorageService {
     private DocRepository docRepository;
 
     @Override
-    public Doc saveFile(MultipartFile file) {
+    public Doc saveFile(MultipartFile file, Long userId) {
         String docname = file.getOriginalFilename();
         try {
-            Doc doc = new Doc(docname, file.getContentType(), file.getBytes());
+            Doc doc = new Doc(docname, file.getContentType(), file.getBytes(), userId);
             return docRepository.save(doc);
         } catch (Exception e) {
             e.printStackTrace();

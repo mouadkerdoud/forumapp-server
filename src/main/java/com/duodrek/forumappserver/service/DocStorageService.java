@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DocStorageService {
-    Doc saveFile(MultipartFile file);
+    Doc saveFile(MultipartFile file, Long userId);
 
     Optional<Doc> getFile(Integer fileId);
 

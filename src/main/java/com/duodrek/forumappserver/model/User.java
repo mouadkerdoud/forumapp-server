@@ -43,15 +43,6 @@ public class User {
     private Collection<Attending> attendings = new ArrayList<>();
 
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JsonIgnore
-    private List<Doc> docs = new ArrayList<>();
-
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

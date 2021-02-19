@@ -15,18 +15,16 @@ public class Doc {
     @Lob
     private byte[] data;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
-
+    Long userId;
 
     public Doc() {}
 
-    public Doc(String docName, String docType, byte[] data) {
+    public Doc(String docName, String docType, byte[] data, Long userId) {
         super();
         this.docName = docName;
         this.docType = docType;
         this.data = data;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -59,6 +57,14 @@ public class Doc {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
 }
