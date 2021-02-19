@@ -1,19 +1,17 @@
 package com.duodrek.forumappserver.controller;
 
 import com.duodrek.forumappserver.jwt.JwtTokenProvider;
-import com.duodrek.forumappserver.model.Attending;
-import com.duodrek.forumappserver.model.Event;
-import com.duodrek.forumappserver.model.Role;
-import com.duodrek.forumappserver.model.User;
-import com.duodrek.forumappserver.service.AttendingService;
-import com.duodrek.forumappserver.service.EventService;
-import com.duodrek.forumappserver.service.PostService;
-import com.duodrek.forumappserver.service.UserService;
+import com.duodrek.forumappserver.model.*;
+import com.duodrek.forumappserver.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -34,6 +32,9 @@ public class UserController {
 
     @Autowired
     private AttendingService attendingService;
+
+    @Autowired
+    private DocStorageService docStorageService;
 
 
 
@@ -59,6 +60,37 @@ public class UserController {
         user.setToken(tokenProvider.generateToken(authenticationToken));
 
         return new ResponseEntity<>(user, HttpStatus.OK);    }
+
+
+
+    //Doc
+
+    @GetMapping("/api/user/cvs")
+    public ResponseEntity<?> getAllCvs(){
+        return new ResponseEntity<>(docStorageService.getFiles(), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/api/user/uploadCv")
+    public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile[] files) {
+        for (MultipartFile file: files) {
+            docStorageService.saveFile(file);
+
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/downloadFile/{fileId}")
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Integer fileId){
+        Doc doc = docStorageService.getFile(fileId).get();
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(doc.getDocType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+doc.getDocName()+"\"")
+                .body(new ByteArrayResource(doc.getData()));
+    }
+
+
+
 
 
     //Post methods

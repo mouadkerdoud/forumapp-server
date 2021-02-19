@@ -37,9 +37,19 @@ public class User {
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private Collection<Attending> attendings = new ArrayList<>();
+
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonIgnore
+    private List<Doc> docs = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
