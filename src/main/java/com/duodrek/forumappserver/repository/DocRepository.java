@@ -1,8 +1,11 @@
 package com.duodrek.forumappserver.repository;
 
 import com.duodrek.forumappserver.model.Doc;
+import com.duodrek.forumappserver.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DocRepository  extends JpaRepository<Doc,Integer> {
+import java.util.Optional;
 
+public interface DocRepository  extends JpaRepository<Doc,Integer> {
+    Optional<Doc> findByUserId(Long userId);
 }

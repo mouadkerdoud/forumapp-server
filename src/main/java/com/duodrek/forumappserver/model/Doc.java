@@ -15,7 +15,11 @@ public class Doc {
     @Lob
     private byte[] data;
 
-    Long userId;
+    private Long userId;
+
+    private Long eventId;
+
+    private Long postId;
 
     public Doc() {}
 

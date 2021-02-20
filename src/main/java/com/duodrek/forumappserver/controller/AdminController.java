@@ -4,6 +4,7 @@ import com.duodrek.forumappserver.model.Event;
 import com.duodrek.forumappserver.model.Post;
 import com.duodrek.forumappserver.model.StringResponse;
 import com.duodrek.forumappserver.model.User;
+import com.duodrek.forumappserver.service.DocStorageService;
 import com.duodrek.forumappserver.service.EventService;
 import com.duodrek.forumappserver.service.PostService;
 import com.duodrek.forumappserver.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +29,8 @@ public class AdminController {
     @Autowired
     private EventService eventService;
 
-
+    @Autowired
+    private DocStorageService docStorageService;
 
     //User methods
 
@@ -74,6 +77,31 @@ public class AdminController {
         response.setResponse(number.toString());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+
+    //Doc methods
+
+
+    //Upload methods
+    @PostMapping("/api/admin/uploadUserDoc")
+    public ResponseEntity<?> uploadFilesUser(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
+
+        return new ResponseEntity<>( docStorageService.saveFileUser(file, userId), HttpStatus.CREATED );
+    }
+
+    //Retrieving methods
+    @GetMapping("/api/admin/findDocByUserId/{userId}")
+    public ResponseEntity<?> findDocByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(docStorageService.findByUserId(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/admin/docs")
+    public ResponseEntity<?> getAllDocs(){
+        return new ResponseEntity<>(docStorageService.getFiles(), HttpStatus.OK);
+    }
+
+
 
 
     //Post methods

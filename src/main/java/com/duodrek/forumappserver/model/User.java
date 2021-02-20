@@ -43,6 +43,7 @@ public class User {
     private Collection<Attending> attendings = new ArrayList<>();
 
 
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

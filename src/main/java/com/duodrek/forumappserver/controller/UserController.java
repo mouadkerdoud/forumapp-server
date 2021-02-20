@@ -62,30 +62,52 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);    }
 
 
+    @PutMapping("/api/user/updateProfile")
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        User existUser = userService.findByUsername(user.getUsername());
+        if(existUser != null && !existUser.getUserId().equals(user.getUserId())){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/api/user/findUserById/{userId}")
+    public ResponseEntity<?> findByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(userService.findByUserId(userId), HttpStatus.OK);
+    }
+
+
+
 
     //Doc
 
-    @GetMapping("/api/user/cvs")
-    public ResponseEntity<?> getAllCvs(){
+
+    //Upload methods
+    @PostMapping("/api/user/uploadUserDoc")
+    public ResponseEntity<?> uploadFilesUser(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
+
+        return new ResponseEntity<>( docStorageService.saveFileUser(file, userId), HttpStatus.CREATED );
+    }
+
+    @PutMapping("/api/user/updateUserFile")
+    public ResponseEntity<?> updateFileUser(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
+
+        return new ResponseEntity<>( docStorageService.updateFileUser(file, userId), HttpStatus.CREATED );
+    }
+
+
+
+    //Retrieving methods
+    @GetMapping("/api/user/findDocByUserId/{userId}")
+    public ResponseEntity<?> findDocByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(docStorageService.findByUserId(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/docs")
+    public ResponseEntity<?> getAllDocs(){
         return new ResponseEntity<>(docStorageService.getFiles(), HttpStatus.OK);
     }
-
-
-    @PostMapping("/api/user/uploadCv")
-    public ResponseEntity<?> uploadFiles(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
-
-        return new ResponseEntity<>( docStorageService.saveFile(file, userId), HttpStatus.CREATED );
-    }
-
-    @GetMapping("/api/user/downloadFile/{fileId}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Integer fileId){
-        Doc doc = docStorageService.getFile(fileId).get();
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(doc.getDocType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment:filename=\""+doc.getDocName()+"\"")
-                .body(new ByteArrayResource(doc.getData()));
-    }
-
 
 
 
