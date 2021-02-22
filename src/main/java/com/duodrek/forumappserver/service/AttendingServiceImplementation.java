@@ -31,4 +31,10 @@ public class AttendingServiceImplementation implements AttendingService {
     public List<Attending> findAllAttendings(){
         return attendingRepository.findAll();
     }
+
+    @Override
+    public Long numberOfAttendings(){
+        return attendingRepository.count();
+    }
+
 }

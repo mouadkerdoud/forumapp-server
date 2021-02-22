@@ -11,4 +11,6 @@ public interface AttendingService {
     void deleteAttending(Long attendingId);
 
     List<Attending> findAllAttendings();
+
+    Long numberOfAttendings();
 }

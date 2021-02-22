@@ -4,10 +4,7 @@ import com.duodrek.forumappserver.model.Event;
 import com.duodrek.forumappserver.model.Post;
 import com.duodrek.forumappserver.model.StringResponse;
 import com.duodrek.forumappserver.model.User;
-import com.duodrek.forumappserver.service.DocStorageService;
-import com.duodrek.forumappserver.service.EventService;
-import com.duodrek.forumappserver.service.PostService;
-import com.duodrek.forumappserver.service.UserService;
+import com.duodrek.forumappserver.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +28,9 @@ public class AdminController {
 
     @Autowired
     private DocStorageService docStorageService;
+
+    @Autowired
+    private AttendingService attendingService;
 
     //User methods
 
@@ -183,6 +183,28 @@ public class AdminController {
     @GetMapping("/api/admin/events-number")
     public ResponseEntity<?> numberOfEvents() {
         Long number = eventService.numberOfEvents();
+        StringResponse response = new StringResponse();
+        response.setResponse(number.toString());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+
+    //Attendings methods
+    @GetMapping("/api/admin/attendings")
+    public ResponseEntity<?> getAllAttendings(){
+        return new ResponseEntity<>(attendingService.findAllAttendings(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/admin/deleteAttending/{attendingId}")
+    public ResponseEntity<?> deleteAttending(@PathVariable Long attendingId){
+        attendingService.deleteAttending(attendingId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/admin/attendings-number")
+    public ResponseEntity<?> numberOfAttendings(){
+        Long number = attendingService.numberOfAttendings();
         StringResponse response = new StringResponse();
         response.setResponse(number.toString());
         return new ResponseEntity<>(response, HttpStatus.OK);
