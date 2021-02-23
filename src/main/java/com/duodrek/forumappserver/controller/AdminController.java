@@ -90,6 +90,14 @@ public class AdminController {
         return new ResponseEntity<>( docStorageService.saveFileUser(file, userId), HttpStatus.CREATED );
     }
 
+    @PutMapping("/api/admin/updateUserFile")
+    public ResponseEntity<?> updateFileUser(@RequestParam("files") MultipartFile file, @RequestParam("userId") Long userId) {
+
+        return new ResponseEntity<>( docStorageService.updateFileUser(file, userId), HttpStatus.CREATED );
+    }
+
+
+
     //Retrieving methods
     @GetMapping("/api/admin/findDocByUserId/{userId}")
     public ResponseEntity<?> findDocByUserId(@PathVariable Long userId){
