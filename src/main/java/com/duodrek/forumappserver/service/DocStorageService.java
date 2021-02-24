@@ -14,7 +14,6 @@ public interface DocStorageService {
 
     Doc updateFileUser(MultipartFile file, Long userId);
 
-    Optional<Doc> getFile(Integer fileId);
 
     List<Doc> getFiles();
 

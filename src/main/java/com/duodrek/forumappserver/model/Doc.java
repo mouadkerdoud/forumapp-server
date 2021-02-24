@@ -17,9 +17,6 @@ public class Doc {
 
     private Long userId;
 
-    private Long eventId;
-
-    private Long postId;
 
     public Doc() {}
 
